@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "target": "es5",                          /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017','ES2018' or 'ESNEXT'. */
+    "lib": [ "dom", "es2015" ],               /* Specify library files to be included in the compilation. */
+    "jsx": "react",                           /* Support JSX in .tsx files: "React" or "Preserve". See JSX. */
+    "strict": true,                           /* Enable all strict type-checking options. */
+    "strictPropertyInitialization": false,    /* Enable strict checking of property initialization in classes. */
+    "experimentalDecorators": true,           /* Enables experimental support for ES7 decorators. */
+    "baseUrl": "./",
+    "paths": {
+      "*": [
+        "wwwroot/lib/*",
+      ],
+      "react": ["typings/react"],
+      "react-dom": ["typings/react-dom"],
+      "react-router": ["typings/react-router"],
+      "react-router-dom": ["typings/react-router-dom"],
+      "classnames": ["typings/classnames"],
+      "history": ["typings/history"],
+      "csstype": ["typings/csstypes"],
+      "prop-types": ["typings/prop-types"]
+    }
+  }
+}
