@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{{ title ?? 'MyApp' }}</title>
-    {{ ['/assets/css/'] | bundleCss({ minify:!debug, cache:!debug, disk:!debug }) }}
+    {{ (debug ? '' : '.min') | assignTo: min }}
+    {{ ['/assets/css/'] | bundleCss({ minify:!debug, cache:!debug, disk:!debug, out:`/css/bundle${min}.css` }) }}
 </head>
 <body>
     <i hidden>{{ '/js/hot-loader.js'     | ifDebugIncludeScript }}</i>
@@ -13,16 +14,15 @@
 
     {{page}}
 
-    {{ (debug ? '.development' : '.production.min') | assignTo: envjs }}
-    {{ (debug ? '' : '.min') | assignTo: minjs }}
+    {{ (debug ? '.development' : '.production.min') | assignTo: env }}
     {{ [
-        `/lib/react/react${envjs}.js`,
-        `/lib/react-dom/react-dom${envjs}.js`,
-        `/lib/react-router-dom/react-router-dom${minjs}.js`,
+        `/lib/react/react${env}.js`,
+        `/lib/react-dom/react-dom${env}.js`,
+        `/lib/react-router-dom/react-router-dom${min}.js`,
         '/lib/classnames/index.js',
         '/lib/@servicestack/client/servicestack-client.umd.js',
-    ] | bundleJs({ minify:!debug, cache:!debug, disk:!debug, out:`/js/lib.bundle${minjs}.js` }) }}
-
+    ] | bundleJs({ minify:!debug, cache:!debug, disk:!debug, out:`/js/lib.bundle${min}.js` }) }}
+    
     <script>
         var ALIASES = {
             'react': window.React,
@@ -40,7 +40,7 @@
         'content:/src/components/',
         'content:/src/shared/',
         'content:/src/',
-    ] | bundleJs({ minify:!debug, cache:!debug, disk:!debug, out:`/js/bundle${minjs}.js` }) }}
+    ] | bundleJs({ minify:!debug, cache:!debug, disk:!debug, out:`/js/bundle${min}.js` }) }}
 
     {{ scripts | raw }} 
 
