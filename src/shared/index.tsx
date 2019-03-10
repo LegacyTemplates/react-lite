@@ -1,15 +1,16 @@
 import * as React from "react";
 import { createContext, useReducer, useEffect, useContext } from "react";
-import * as ReactDOM from "react-dom";
 import { JsonServiceClient } from "@servicestack/client";
 import { Link, withRouter } from "react-router-dom";
 import * as classNames from "classnames";
+import { History } from 'history';
 
 export var client = new JsonServiceClient("/");
 
 export {
   errorResponse, errorResponseExcept,
-  splitOnFirst, toPascalCase
+  splitOnFirst, toPascalCase,
+  queryString
 } from "@servicestack/client";
 
 export {
@@ -39,6 +40,16 @@ class NavItemImpl extends React.Component<any, any> {
   }
 }
 export const NavItem = withRouter(NavItemImpl);
+
+export const redirect = (history:History, path:string) => {
+  const externalUrl = path.indexOf('://') >= 0;
+  if (!externalUrl) {
+      history.push(path);
+  } else {
+      location.href = path;
+  }
+}
+
 
 // Shared state between all Components
 interface State {

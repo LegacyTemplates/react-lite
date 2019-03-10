@@ -27,7 +27,7 @@ const App: React.SFC<any> = (props:any) => {
                         <ul className="navbar-nav mr-auto">
                             <NavItem to="/">Home</NavItem>
                             <NavItem to="/about">About</NavItem>                            
-                            {!state.isAuthenticated ? <NavItem to="/signin">Sign In</NavItem> : null}
+                            {!state.isAuthenticated ? <NavItem to="/login">Sign In</NavItem> : null}
                             {!state.isAuthenticated ? <NavItem to="/signup">Sign Up</NavItem> : null}
                         </ul>
                     </div>
@@ -39,7 +39,7 @@ const App: React.SFC<any> = (props:any) => {
                     <div id="content">
                         <Route exact path="/" component={Home} activeClassName="active" />
                         <Route path="/about" component={About} activeClassName="active" />
-                        <Route path="/signin" component={SignIn} activeClassName="active" />
+                        <Route path="/login" component={SignIn} activeClassName="active" />
                         <Route path="/signup" component={SignUp} activeClassName="active" />
                     </div>
                 </div>

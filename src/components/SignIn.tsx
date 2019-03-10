@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as classNames from "classnames";
 import { useState, useContext } from 'react';
-import { StateContext, client, Authenticate } from '../shared'
+import { StateContext, client, Authenticate, queryString, redirect } from '../shared'
 import { ErrorSummary, Input, CheckBox } from '../shared/controls';
 import { Link, withRouter } from "react-router-dom";
 import { History } from 'history';
@@ -33,10 +33,10 @@ const SignInImpl: React.SFC<any> = ({ history }) => {
                 rememberMe: rememberMe,
             }));
 
-            dispatch({ type:'signin', data: response });
+            dispatch({ type:'signin', data:response });
             setLoading(false);
-
-            (history as History).push('/');
+            redirect(history as History, queryString(history.location.search)['redirect'] || '/');
+            
         } catch (e) {
             setResponseStatus(e.responseStatus || e);
             setLoading(false);

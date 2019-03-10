@@ -31,7 +31,7 @@ export const Home: React.SFC<any> = (props:any) => {
             (<div>
                 <p className="pt-3">You're not authenticated, please Sign In:</p>
                 <ul className="nav flex-column">
-                    <NavItem to="/signin">Sign In</NavItem>
+                    <NavItem to="/login">Sign In</NavItem>
                     <NavItem to="/signup">Register new User</NavItem>
                 </ul>
             </div>)}
