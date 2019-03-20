@@ -32,11 +32,11 @@ export const SignUpImpl: React.SFC<any> = ({ history }) => {
             setResponseStatus(null);
 
             const response = await client.post(new Register({
-                displayName: displayName,
-                email: email,
-                password: password,
-                confirmPassword: confirmPassword,
-                autoLogin: autoLogin,
+                displayName,
+                email,
+                password,
+                confirmPassword,
+                autoLogin,
             }));
             
             await checkAuth(dispatch);

@@ -28,9 +28,9 @@ const SignInImpl: React.SFC<any> = ({ history }) => {
 
             const response = await client.post(new Authenticate({
                 provider: 'credentials',
-                userName: userName,
-                password: password,
-                rememberMe: rememberMe,
+                userName,
+                password,
+                rememberMe,
             }));
 
             dispatch({ type:'signin', data:response });
