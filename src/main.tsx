@@ -9,7 +9,7 @@ import { Home } from './components/Home';
 import { SignIn } from './components/SignIn';
 import { SignUp } from './components/SignUp';
 
-const App: React.SFC<any> = (props:any) => {
+const App: React.FC<any> = (props:any) => {
     const {state, dispatch} = useContext(StateContext);
     
     useEffect(() => {

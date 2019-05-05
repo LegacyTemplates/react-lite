@@ -3,7 +3,7 @@ import { StateContext, NavItem, client, Hello, signout } from '../shared';
 import { Input } from '../shared/controls';
 import { useState, useEffect, useContext } from 'react';
 
-export const Home: React.SFC<any> = (props:any) => {
+export const Home: React.FC<any> = (props:any) => {
     const {state, dispatch} = useContext(StateContext);
     const [name, setName] = useState('React');
     const [result, setResult] = useState('');

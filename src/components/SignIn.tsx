@@ -6,7 +6,7 @@ import { ErrorSummary, Input, CheckBox } from '../shared/controls';
 import { Link, withRouter } from "react-router-dom";
 import { History } from 'history';
 
-const SignInImpl: React.SFC<any> = ({ history }) => {
+const SignInImpl: React.FC<any> = ({ history }) => {
     const {state, dispatch} = useContext(StateContext);
 
     const [loading, setLoading] = useState(false);

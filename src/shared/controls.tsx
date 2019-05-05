@@ -6,7 +6,7 @@ interface ErrorSummaryProps {
     responseStatus: any,
     except: string | string[]
 }
-export const ErrorSummary: React.SFC<ErrorSummaryProps> = ({ responseStatus, except }) => {
+export const ErrorSummary: React.FC<ErrorSummaryProps> = ({ responseStatus, except }) => {
     const self = { responseStatus };
     const errorSummary = errorResponseExcept.call(self,except);
     return (errorSummary ? <div className="alert alert-danger mt-2">{errorSummary}</div> : null);
@@ -25,7 +25,7 @@ interface InputProps extends InputPropsBase {
     type?: string;
 }
 
-export const Input: React.SFC<InputProps> = (props) => {
+export const Input: React.FC<InputProps> = (props) => {
     const { responseStatus, type, name, value, onChange, className, placeholder, ...remaining } = props;
     const self = { responseStatus };
     const errorField = name && errorResponse.call(self,name);
@@ -44,7 +44,7 @@ interface CheckBoxProps extends InputPropsBase {
     checked?: boolean
 }
 
-export const CheckBox: React.SFC<CheckBoxProps> = (props) => {
+export const CheckBox: React.FC<CheckBoxProps> = (props) => {
     const { responseStatus, name, checked, onChange, className } = props;
     const self = { responseStatus };
     const errorField = name && errorResponse.call(self,name);

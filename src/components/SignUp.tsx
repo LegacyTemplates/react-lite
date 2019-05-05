@@ -6,7 +6,7 @@ import { ErrorSummary, Input, CheckBox } from '../shared/controls';
 import { withRouter } from "react-router-dom";
 import { History } from 'history';
 
-export const SignUpImpl: React.SFC<any> = ({ history }) => {
+export const SignUpImpl: React.FC<any> = ({ history }) => {
     const {state, dispatch} = useContext(StateContext);
 
     const [loading, setLoading] = useState(false);

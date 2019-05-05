@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-export const About: React.SFC<any> = (props:any) => {
+export const About: React.FC<any> = (props:any) => {
     const [message] = React.useState('About page');
 
     return (<div id="about">
