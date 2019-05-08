@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { StateContext, NavItem, client, Hello, signout } from '../shared';
-import { Input } from '../shared/controls';
 import { useState, useEffect, useContext } from 'react';
+import { Input } from '@servicestack/react';
+import { StateContext, NavItem, client, Hello, signout } from '../shared';
 
 export const Home: React.FC<any> = (props:any) => {
     const {state, dispatch} = useContext(StateContext);

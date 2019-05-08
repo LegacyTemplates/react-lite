@@ -1,10 +1,10 @@
 import * as React from 'react';
 import * as classNames from "classnames";
 import { useState, useContext } from 'react';
-import { StateContext, client, Authenticate, queryString, redirect } from '../shared'
-import { ErrorSummary, Input, CheckBox } from '../shared/controls';
+import { ErrorSummary, Input, CheckBox } from '@servicestack/react';
 import { Link, withRouter } from "react-router-dom";
 import { History } from 'history';
+import { StateContext, client, Authenticate, queryString, redirect } from '../shared'
 
 const SignInImpl: React.FC<any> = ({ history }) => {
     const {state, dispatch} = useContext(StateContext);
@@ -49,16 +49,18 @@ const SignInImpl: React.FC<any> = ({ history }) => {
         <form className={classNames({error:responseStatus, loading})} 
               onSubmit={async e => { e.preventDefault(); await submit(); }}>
             <div className="form-group">
-                <ErrorSummary responseStatus={responseStatus} except={'userName,password'} />
+                <ErrorSummary except={'userName,password'} responseStatus={responseStatus} />
             </div>
             <div className="form-group">
-                <Input type="text" name="userName" value={userName} onChange={setUserName} responseStatus={responseStatus} placeholder="UserName" />
+                <Input type="text" id="userName" value={userName} onChange={setUserName} responseStatus={responseStatus} placeholder="UserName"
+                       label="Email"  help="Email you signed up with" />
             </div>
             <div className="form-group">
-                <Input type="password" name="password" value={password} onChange={setPassword} responseStatus={responseStatus} placeholder="Password" />
+                <Input type="password" id="password" value={password} onChange={setPassword} responseStatus={responseStatus} placeholder="Password"
+                       label="Password"  help="6 characters or more" />
             </div>
             <div className="form-group">
-                <CheckBox name="rememberMe" checked={rememberMe} onChange={setRememberMe} responseStatus={responseStatus}>
+                <CheckBox id="rememberMe" value={rememberMe} onChange={setRememberMe} responseStatus={responseStatus}>
                     Remember Me
                 </CheckBox>
             </div>

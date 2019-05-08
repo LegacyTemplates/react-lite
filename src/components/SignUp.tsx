@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as classNames from "classnames";
 import { useState, useContext } from 'react';
 import { StateContext, client, checkAuth, Register, toPascalCase, splitOnFirst } from '../shared'
-import { ErrorSummary, Input, CheckBox } from '../shared/controls';
+import { ErrorSummary, Input, CheckBox } from '@servicestack/react';
 import { withRouter } from "react-router-dom";
 import { History } from 'history';
 
@@ -55,22 +55,26 @@ export const SignUpImpl: React.FC<any> = ({ history }) => {
         <form className={classNames({error:responseStatus, loading})} 
               onSubmit={async e => { e.preventDefault(); await submit(); }}>
             <div className="form-group">
-                <ErrorSummary responseStatus={responseStatus} except={'displayName,email,password,confirmPassword'} />
+                <ErrorSummary except={'displayName,email,password,confirmPassword'} responseStatus={responseStatus} />
             </div>
             <div className="form-group">
-                <Input type="text" name="displayName" value={displayName} onChange={setDisplayName} responseStatus={responseStatus} placeholder="Display Name" />
+                <Input type="text" id="displayName" value={displayName} onChange={setDisplayName} responseStatus={responseStatus}
+                       placeholder="Display Name" label="Name" help="Your first and last name" />
             </div>
             <div className="form-group">
-                <Input type="text" name="email" value={email} onChange={setEmail} responseStatus={responseStatus} placeholder="Email" />
+                <Input type="text" id="email" value={email} onChange={setEmail} responseStatus={responseStatus}
+                       placeholder="Email" label="Email" />
             </div>
             <div className="form-group">
-                <Input type="password" name="password" value={password} onChange={setPassword} responseStatus={responseStatus} placeholder="Password" />
+                <Input type="password" id="password" value={password} onChange={setPassword} responseStatus={responseStatus}
+                       placeholder="Password" label="Password" />
             </div>
             <div className="form-group">
-                <Input type="password" name="confirmPassword" value={confirmPassword} onChange={setConfirmPassword} responseStatus={responseStatus} placeholder="Confirm" />
+                <Input type="password" id="confirmPassword" value={confirmPassword} onChange={setConfirmPassword} responseStatus={responseStatus}
+                       placeholder="Confirm" label="Confirm Password" />
             </div>
             <div className="form-group">
-                <CheckBox name="autoLogin" checked={autoLogin} onChange={setAutoLogin} responseStatus={responseStatus}>
+                <CheckBox id="autoLogin" value={autoLogin} onChange={setAutoLogin} responseStatus={responseStatus}>
                     Auto Login
                 </CheckBox>
             </div>
