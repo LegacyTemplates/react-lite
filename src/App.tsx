@@ -13,7 +13,7 @@ import { SignUp } from './components/SignUp';
 import { Profile } from './components/Profile';
 import { Admin } from './components/Admin';
 
-const App: React.FC<any> = () => {
+export const App: React.FC<any> = () => {
     const { state, dispatch } = React.useContext(StateContext);
 
     const renderHome = () => <Home name="React" />;

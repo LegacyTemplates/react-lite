@@ -1,15 +1,14 @@
 import './hello.css';
+
 import * as React from 'react';
-import { useState, useEffect, useContext } from 'react';
-import { Input, LinkButton, NavButtonGroup } from '@servicestack/react';
-import { StateContext, client, Hello, signout } from '../../shared';
+import { Input } from '@servicestack/react';
+import { client, Hello } from '../../shared';
 
 export const HelloApi: React.FC<any> = (props:any) => {
-    const {state, dispatch} = useContext(StateContext);
-    const [name, setName] = useState('React');
-    const [result, setResult] = useState('');
+    const [name, setName] = React.useState('React');
+    const [result, setResult] = React.useState('');
 
-    useEffect(() => {
+    React.useEffect(() => {
         (async () => {
             setResult(!name ? '' : (await client.get(new Hello({ name }) )).result)
         })();
