@@ -10,3 +10,11 @@ a {
 .form-check.form-control {
     padding-left: 1.75rem;
 }
+.result {
+    margin: 10px;
+    color: #0097b3;
+}
+#about h3 {
+    color: #008299;
+    text-shadow: 2px 2px 3px rgba(0,0,0,0.2);
+}

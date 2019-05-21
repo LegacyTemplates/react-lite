@@ -24,7 +24,7 @@ var __rest = (this && this.__rest) || function (s, e) {
         if (v !== undefined) module.exports = v;
     }
     else if (typeof define === "function" && define.amd) {
-        define(["require", "exports", "react", "classnames", "@servicestack/client"], factory);
+        define(["require", "exports", "react", "classnames", "react-router-dom", "@servicestack/client"], factory);
     }
     else if (typeof window != "undefined") factory(window.require||function(){}, window["@servicestack/react"]={});
 })(function (require, exports) {
@@ -32,6 +32,7 @@ var __rest = (this && this.__rest) || function (s, e) {
     Object.defineProperty(exports, "__esModule", { value: true });
     var React = require("react") || window.React;
     var classNames = require("classnames") || window.classNames;
+    var react_router_dom_1 = require("react-router-dom") || window.ReactRouterDOM;
     var client_1 = require("@servicestack/client") || window["@servicestack/client"];
     exports.ErrorSummary = function (_a) {
         var responseStatus = _a.responseStatus, except = _a.except;
@@ -149,5 +150,159 @@ var __rest = (this && this.__rest) || function (s, e) {
                 React.createElement("label", { className: "form-check-label", htmlFor: id }, props.children)),
             help ? React.createElement("small", { className: "text-muted" }, help) : null,
             errorField ? React.createElement("div", { className: "invalid-feedback" }, errorField) : null));
+    };
+    function parseIconHtml(html) {
+        var match = /class="([^"]+)/.exec(html);
+        if (match != null) {
+            return React.createElement("i", { className: match[1] });
+        }
+        return null;
+    }
+    exports.Nav = react_router_dom_1.withRouter(function (_a) {
+        var items = _a.items, options = _a.options, remaining = __rest(_a, ["items", "options"]);
+        if (items == null || items.length === 0) {
+            return null;
+        }
+        options = Object.assign(client_1.NavDefaults.forNav(options), remaining);
+        return (React.createElement("div", { className: options.navClass }, items.map(function (x) { return React.createElement(exports.NavLink, { key: x.href || x.label, item: x, options: options }); })));
+    });
+    exports.Navbar = react_router_dom_1.withRouter(function (_a) {
+        var items = _a.items, options = _a.options, remaining = __rest(_a, ["items", "options"]);
+        if (items == null || items.length === 0) {
+            return null;
+        }
+        options = Object.assign(client_1.NavbarDefaults.forNavbar(options), remaining);
+        return (React.createElement(exports.Nav, { items: items, options: options }));
+    });
+    exports.A = function (_a) {
+        var to = _a.to, onClick = _a.onClick, children = _a.children, attrs = __rest(_a, ["to", "onClick", "children"]);
+        if (onClick != null) {
+            return (React.createElement("a", __assign({ href: "javascript:void(0)", onClick: onClick }, attrs), children));
+        }
+        if (to.startsWith('http://') || to.startsWith('https://') || to.startsWith('://')) {
+            return (React.createElement("a", __assign({ href: to }, attrs), children));
+        }
+        else {
+            return (React.createElement(react_router_dom_1.Link, __assign({ to: to }, attrs), children));
+        }
+    };
+    exports.NavLink = react_router_dom_1.withRouter(function (_a) {
+        var item = _a.item, options = _a.options, activePath = _a.activePath, navItemClass = _a.navItemClass, navLinkClass = _a.navLinkClass, history = _a.history;
+        options = options || client_1.NavDefaults.forNav();
+        if (item == null || !client_1.NavDefaults.showNav(item, options.attributes)) {
+            return null;
+        }
+        options.activePath = activePath || options.activePath || history.location.pathname;
+        options.navItemClass = navItemClass || options.navItemClass;
+        options.navLinkClass = navLinkClass || options.navLinkClass;
+        var children = item.children || [];
+        var hasChildren = children.length > 0;
+        var navItemCls = hasChildren
+            ? options.childNavItemClass
+            : options.navItemClass;
+        var navLinkCls = hasChildren
+            ? options.childNavLinkClass
+            : options.navLinkClass;
+        var childProps = {};
+        var id = item.id;
+        if (hasChildren) {
+            if (id == null) {
+                id = client_1.safeVarName(item.label);
+            }
+            /* tslint:disable:no-string-literal */
+            childProps['role'] = 'button';
+            childProps['data-toggle'] = 'dropdown';
+            childProps['aria-haspopup'] = 'true';
+            childProps['aria-expanded'] = 'false';
+            /* tslint:enable:no-string-literal */
+        }
+        var baseHref = client_1.trimEnd(options.baseHref || '', '/');
+        return (React.createElement("li", { className: classNames(item.className, navItemCls) },
+            React.createElement(exports.A, __assign({ to: baseHref + item.href, className: classNames(navLinkCls, client_1.activeClassNav(item, options.activePath)), id: id }, childProps), item.label),
+            children.map(function (x) {
+                return (React.createElement("div", { className: options.childNavMenuClass, "aria-labelledby": id }, x.label === '-'
+                    ? React.createElement("div", { className: "dropdown-divider" })
+                    : (React.createElement(exports.A, { to: baseHref + x.href, className: classNames(options.childNavMenuItemClass, client_1.activeClassNav(x, options.activePath)) }, x.label))));
+            })));
+    });
+    exports.NavButtonGroup = react_router_dom_1.withRouter(function (_a) {
+        var items = _a.items, options = _a.options, remaining = __rest(_a, ["items", "options"]);
+        if (items == null || items.length === 0) {
+            return null;
+        }
+        options = Object.assign(client_1.NavButtonGroupDefaults.forNavButtonGroup(options), remaining);
+        return (React.createElement("div", { className: classNames(remaining.block ? null : remaining.vertical ? 'btn-group-vertical' : options.navClass) }, items.map(function (x) { return React.createElement(exports.NavLinkButton, __assign({ key: x.href || x.label, item: x, options: options }, remaining)); })));
+    });
+    exports.NavLinkButton = react_router_dom_1.withRouter(function (_a) {
+        var item = _a.item, options = _a.options, activePath = _a.activePath, navItemClass = _a.navItemClass, history = _a.history, remaining = __rest(_a, ["item", "options", "activePath", "navItemClass", "history"]);
+        options = Object.assign(client_1.NavLinkDefaults.forNavLink(options), remaining);
+        if (item == null || !client_1.NavDefaults.showNav(item, options.attributes)) {
+            return null;
+        }
+        options.activePath = activePath || options.activePath || history.location.pathname;
+        options.navItemClass = navItemClass || options.navItemClass;
+        var baseHref = client_1.trimEnd(options.baseHref || '', '/');
+        var parseHtml = client_1.NavDefaults.parseIconHtml || parseIconHtml;
+        return (React.createElement(exports.A, { to: baseHref + item.href, id: item.id, className: classNames(item.className, options.navItemClass, client_1.activeClassNav(item, options.activePath), client_1.btnClasses(remaining)) },
+            parseHtml(item.iconHtml),
+            item.label));
+    });
+    exports.LinkButton = react_router_dom_1.withRouter(function (_a) {
+        var href = _a.href, exact = _a.exact, className = _a.className, options = _a.options, history = _a.history, children = _a.children, remaining = __rest(_a, ["href", "exact", "className", "options", "history", "children"]);
+        var activePath = options != null ? options.activePath : '';
+        if (!activePath) {
+            activePath = history.location.pathname;
+        }
+        options = Object.assign(client_1.LinkButtonDefaults.forLinkButton(options), remaining);
+        var hashPrefix = client_1.trimEnd(options.baseHref || '', '/');
+        var attrs = client_1.pick(remaining, ['id', 'type', 'name', 'autofocus', 'disabled', 'value', 'onClick']);
+        return (React.createElement(exports.A, __assign({ to: hashPrefix + href }, attrs, { className: classNames(className, options.navItemClass, client_1.activeClass(href || null, activePath, exact), client_1.btnClasses(remaining)) }), children));
+    });
+    exports.Button = function (_a) {
+        var type = _a.type, id = _a.id, className = _a.className, children = _a.children, remaining = __rest(_a, ["type", "id", "className", "children"]);
+        var attrs = client_1.pick(remaining, ['id', 'type', 'name', 'autofocus', 'disabled', 'value', 'onClick']);
+        return (React.createElement("button", __assign({}, attrs, { className: classNames('btn', className, client_1.btnClasses(remaining)) }), children));
+    };
+    exports.Fallback = react_router_dom_1.withRouter(function (_a) {
+        var location = _a.location;
+        React.useEffect(function () {
+            if (location.pathname.indexOf('://') >= 0) {
+                window.location.href = location.pathname.substring(1); // chop path / prefix
+            }
+        }, []);
+        return (React.createElement("div", { className: "fallback" },
+            React.createElement("h3", null,
+                "No matching ",
+                React.createElement("code", null, "Route"),
+                " found for ",
+                React.createElement("code", null, location.pathname))));
+    });
+    exports.Forbidden = function (_a) {
+        var message = _a.message, path = _a.path, role = _a.role, permission = _a.permission, remaining = __rest(_a, ["message", "path", "role", "permission"]);
+        return (React.createElement("div", { className: "forbidden" },
+            React.createElement("h3", null,
+                "You are not authorized to access ",
+                path ? React.createElement("code", null, path) : React.createElement("span", null, "this page")),
+            message != null
+                ? React.createElement("p", null, message)
+                : role
+                    ? React.createElement("p", null,
+                        "Missing role ",
+                        React.createElement("code", null, role))
+                    : permission
+                        ? React.createElement("p", null,
+                            "Missing permission ",
+                            React.createElement("code", null, permission))
+                        : null));
+    };
+    exports.Svg = function (_a) {
+        var id = _a.id, fill = _a.fill, className = _a.className, style = _a.style, baseUrl = _a.baseUrl;
+        var svgSrc = "/metadata/svg/" + id + ".svg";
+        if (fill) {
+            svgSrc += "?fill=" + encodeURIComponent(fill);
+        }
+        style = style || {};
+        var src = baseUrl ? client_1.combinePaths(baseUrl, svgSrc) : svgSrc;
+        return (React.createElement("img", { src: src, className: className, style: style }));
     };
 });

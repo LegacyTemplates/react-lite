@@ -1,12 +1,11 @@
 import * as React from 'react';
-import * as classNames from "classnames";
+import * as classNames from 'classnames';
 import { useState, useContext } from 'react';
-import { ErrorSummary, Input, CheckBox } from '@servicestack/react';
-import { Link, withRouter } from "react-router-dom";
-import { History } from 'history';
-import { StateContext, client, Authenticate, queryString, redirect } from '../shared'
+import { ErrorSummary, Input, CheckBox, Button, LinkButton, NavButtonGroup } from '@servicestack/react';
+import { withRouter } from 'react-router-dom';
+import { StateContext, client, Authenticate, Routes, queryString, redirect } from '../shared';
 
-const SignInImpl: React.FC<any> = ({ history }) => {
+export const SignIn = withRouter<any>(({ history }) => {
     const {state, dispatch} = useContext(StateContext);
 
     const [loading, setLoading] = useState(false);
@@ -35,52 +34,60 @@ const SignInImpl: React.FC<any> = ({ history }) => {
 
             dispatch({ type:'signin', data:response });
             setLoading(false);
-            redirect(history as History, queryString(history.location.search)['redirect'] || '/');
-            
+            redirect(history, queryString(history.location.search).redirect || Routes.Home);
+
         } catch (e) {
             setResponseStatus(e.responseStatus || e);
             setLoading(false);
         }
     }
 
-    return (<div>
-        <h3>Sign In</h3>
-        
-        <form className={classNames({error:responseStatus, loading})} 
-              onSubmit={async e => { e.preventDefault(); await submit(); }}>
-            <div className="form-group">
-                <ErrorSummary except={'userName,password'} responseStatus={responseStatus} />
+    const handleSubmit = async (e:React.FormEvent<HTMLFormElement>) => { e.preventDefault(); await submit(); };
+    const switchAdmin = () => switchUser('admin@email.com');
+    const switchNewUser = () => switchUser('new@user.com');
+
+    return (<div className="row">
+        <div className="col-4">
+            <h3>Sign In</h3>
+
+            <form className={classNames({error:responseStatus, loading})} onSubmit={handleSubmit}>
+                <div className="form-group">
+                    <ErrorSummary except={'userName,password'} responseStatus={responseStatus} />
+                </div>
+                <div className="form-group">
+                    <Input type="text" id="userName" value={userName} onChange={setUserName} responseStatus={responseStatus} placeholder="UserName"
+                        label="Email"  help="Email you signed up with" />
+                </div>
+                <div className="form-group">
+                    <Input type="password" id="password" value={password} onChange={setPassword} responseStatus={responseStatus} placeholder="Password"
+                        label="Password"  help="6 characters or more" />
+                </div>
+                <div className="form-group">
+                    <CheckBox id="rememberMe" value={rememberMe} onChange={setRememberMe} responseStatus={responseStatus}>
+                        Remember Me
+                    </CheckBox>
+                </div>
+                <div className="form-group">
+                    <Button type="submit" lg primary>Sign In</Button>
+                    <LinkButton href="/signup" lg outline-secondary className="ml-2">Register New User</LinkButton>
+                </div>
+            </form>
+
+            <div className="pt-3">
+                <h5>Quick Login:</h5>
+                <div className="btn-group">
+                    <LinkButton outline-info sm onClick={switchAdmin}>admin@email.com</LinkButton>
+                    <LinkButton outline-info sm onClick={switchNewUser}>new@user.com</LinkButton>
+                </div>
             </div>
-            <div className="form-group">
-                <Input type="text" id="userName" value={userName} onChange={setUserName} responseStatus={responseStatus} placeholder="UserName"
-                       label="Email"  help="Email you signed up with" />
+        </div>
+
+        <div className="col-5">
+            <div className="row justify-content-end mt-5">
+                <div className="col col-8">
+                    <NavButtonGroup items={state.nav.navItemsMap.auth} attributes={state.userAttributes} baseHref={state.nav.baseUrl} block lg />
+                </div>
             </div>
-            <div className="form-group">
-                <Input type="password" id="password" value={password} onChange={setPassword} responseStatus={responseStatus} placeholder="Password"
-                       label="Password"  help="6 characters or more" />
-            </div>
-            <div className="form-group">
-                <CheckBox id="rememberMe" value={rememberMe} onChange={setRememberMe} responseStatus={responseStatus}>
-                    Remember Me
-                </CheckBox>
-            </div>
-            <div className="form-group">
-                <button type="submit" className="btn btn-lg btn-primary">Login</button>
-            </div>
-            <div className="form-group">
-                <Link className="btn btn-outline-primary" to="/signup">Register New User</Link>
-            </div>
-        </form>
-        
-        <div className="pt-3">
-            <b>Quick Login:</b>
-            <p className="pt-1">
-                <a className="btn btn-outline-info btn-sm" href="javascript:void(0)" onClick={() => switchUser('admin@email.com')}>admin@email.com</a>
-                {" "}
-                <a className="btn btn-outline-info btn-sm" href="javascript:void(0)" onClick={() => switchUser('new@user.com')}>new@user.com</a>
-            </p>
         </div>
     </div>);
-}
-
-export const SignIn = withRouter(SignInImpl);
+});

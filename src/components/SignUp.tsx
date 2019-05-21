@@ -1,12 +1,11 @@
 import * as React from 'react';
-import * as classNames from "classnames";
+import * as classNames from 'classnames';
 import { useState, useContext } from 'react';
-import { StateContext, client, checkAuth, Register, toPascalCase, splitOnFirst } from '../shared'
-import { ErrorSummary, Input, CheckBox } from '@servicestack/react';
-import { withRouter } from "react-router-dom";
-import { History } from 'history';
+import { StateContext, client, checkAuth, Register, Routes, toPascalCase, splitOnFirst } from '../shared';
+import { ErrorSummary, Input, CheckBox, Button, LinkButton } from '@servicestack/react';
+import { withRouter } from 'react-router-dom';
 
-export const SignUpImpl: React.FC<any> = ({ history }) => {
+export const SignUp = withRouter<any>(({ history }) => {
     const {state, dispatch} = useContext(StateContext);
 
     const [loading, setLoading] = useState(false);
@@ -18,10 +17,10 @@ export const SignUpImpl: React.FC<any> = ({ history }) => {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [autoLogin, setAutoLogin] = useState(true);
 
-    const newUser = (email:string) => {
-        const names = email.split('@');
-        setDisplayName(toPascalCase(names[0]) + " " + toPascalCase(splitOnFirst(names[1],'.')[0]));
-        setEmail(email);
+    const newUser = (s:string) => {
+        const names = s.split('@');
+        setDisplayName(toPascalCase(names[0]) + ' ' + toPascalCase(splitOnFirst(names[1],'.')[0]));
+        setEmail(s);
         setPassword('p@55wOrd');
         setConfirmPassword('p@55wOrd');
     }
@@ -38,57 +37,61 @@ export const SignUpImpl: React.FC<any> = ({ history }) => {
                 confirmPassword,
                 autoLogin,
             }));
-            
+
             await checkAuth(dispatch);
             setLoading(false);
 
-            (history as History).push('/');
+            history.push(Routes.Home);
         } catch (e) {
             setResponseStatus(e.responseStatus || e);
             setLoading(false);
         }
     };
 
-    return (<div>
-        <h3>Register New User</h3>
-    
-        <form className={classNames({error:responseStatus, loading})} 
-              onSubmit={async e => { e.preventDefault(); await submit(); }}>
-            <div className="form-group">
-                <ErrorSummary except={'displayName,email,password,confirmPassword'} responseStatus={responseStatus} />
-            </div>
-            <div className="form-group">
-                <Input type="text" id="displayName" value={displayName} onChange={setDisplayName} responseStatus={responseStatus}
-                       placeholder="Display Name" label="Name" help="Your first and last name" />
-            </div>
-            <div className="form-group">
-                <Input type="text" id="email" value={email} onChange={setEmail} responseStatus={responseStatus}
-                       placeholder="Email" label="Email" />
-            </div>
-            <div className="form-group">
-                <Input type="password" id="password" value={password} onChange={setPassword} responseStatus={responseStatus}
-                       placeholder="Password" label="Password" />
-            </div>
-            <div className="form-group">
-                <Input type="password" id="confirmPassword" value={confirmPassword} onChange={setConfirmPassword} responseStatus={responseStatus}
-                       placeholder="Confirm" label="Confirm Password" />
-            </div>
-            <div className="form-group">
-                <CheckBox id="autoLogin" value={autoLogin} onChange={setAutoLogin} responseStatus={responseStatus}>
-                    Auto Login
-                </CheckBox>
-            </div>
-            <div className="form-group">
-                <button className="btn btn-lg btn-primary" type="submit">Register</button>
-            </div>
-            <div className="pt-3">
-            <b>Quick Populate:</b>
-                <p className="pt-1">
-                    <a className="btn btn-outline-info btn-sm" href="javascript:void(0)" onClick={() => newUser('new@user.com')}>new@user.com</a>
-                </p>
-            </div>
-        </form>
-        </div>);
-}
+    const handleSubmit = async (e:React.FormEvent<HTMLFormElement>) => { e.preventDefault(); await submit(); };
+    const handleNewUser = () => newUser('new@user.com');
 
-export const SignUp = withRouter(SignUpImpl);
+    return (<div className="row">
+        <div className="col-4">
+            <h3>Register New User</h3>
+
+            <form className={classNames({error:responseStatus, loading})} onSubmit={handleSubmit}>
+                <div className="form-group">
+                    <ErrorSummary except={'displayName,email,password,confirmPassword'} responseStatus={responseStatus} />
+                </div>
+                <div className="form-group">
+                    <Input type="text" id="displayName" value={displayName} onChange={setDisplayName} responseStatus={responseStatus}
+                        placeholder="Display Name" label="Name" help="Your first and last name" />
+                </div>
+                <div className="form-group">
+                    <Input type="text" id="email" value={email} onChange={setEmail} responseStatus={responseStatus}
+                        placeholder="Email" label="Email" />
+                </div>
+                <div className="form-group">
+                    <Input type="password" id="password" value={password} onChange={setPassword} responseStatus={responseStatus}
+                        placeholder="Password" label="Password" />
+                </div>
+                <div className="form-group">
+                    <Input type="password" id="confirmPassword" value={confirmPassword} onChange={setConfirmPassword} responseStatus={responseStatus}
+                        placeholder="Confirm" label="Confirm Password" />
+                </div>
+                <div className="form-group">
+                    <CheckBox id="autoLogin" value={autoLogin} onChange={setAutoLogin} responseStatus={responseStatus}>
+                        Auto Login
+                    </CheckBox>
+                </div>
+                <div className="form-group">
+                    <Button type="submit" lg primary>Register</Button>
+                    <LinkButton href="/signin" navItemClass="btn">Sign In</LinkButton>
+                </div>
+
+                <div className="pt-3">
+                    <h5>Quick Populate:</h5>
+                    <p className="pt-1">
+                        <LinkButton outline-info sm onClick={handleNewUser}>new@user.com</LinkButton>
+                    </p>
+                </div>
+            </form>
+        </div>
+    </div>);
+});

@@ -1,104 +1,111 @@
-import * as React from "react";
-import { createContext, useReducer, useEffect, useContext } from "react";
-import { JsonServiceClient } from "@servicestack/client";
-import { Link, withRouter } from "react-router-dom";
-import * as classNames from "classnames";
+import * as React from 'react';
+import { createContext, useReducer } from 'react';
+import { JsonServiceClient, GetNavItemsResponse, UserAttributes, IAuthSession } from '@servicestack/client';
 import { History } from 'history';
 
-export var client = new JsonServiceClient("/");
+declare let global: any; // populated from package.json/jest
+
+if (typeof global === 'undefined') {
+  (window as any).global = window;
+}
+
+export let client = new JsonServiceClient(global.BaseUrl || '/');
 
 export {
   errorResponse, errorResponseExcept,
   splitOnFirst, toPascalCase,
   queryString
-} from "@servicestack/client";
+} from '@servicestack/client';
 
 export {
   ResponseStatus, ResponseError,
   Authenticate, AuthenticateResponse,
   Register,
   Hello, HelloResponse
-} from "./dtos";
+} from './dtos';
 
 import {
-  ResponseStatus, ResponseError,
   Authenticate, AuthenticateResponse
-} from "./dtos";
+} from './dtos';
 
-class NavItemImpl extends React.Component<any, any> {
-  public render() {
-    const { to, location, children } = this.props;
-    const active = location.pathname === to;
-
-    return (
-      <li role="presentation" className={classNames("nav-item", { active })}>
-        <Link to={to} className="nav-link">
-          {children}
-        </Link>
-      </li>
-    );
-  }
+export enum Routes {
+  Home = '/',
+  About = '/about',
+  SignIn = '/signin',
+  SignUp = '/signup',
+  Profile = '/profile',
+  Admin = '/admin',
+  Forbidden = '/forbidden',
 }
-export const NavItem = withRouter(NavItemImpl);
 
-export const redirect = (history:History, path:string) => {
+export enum Roles {
+  Admin = 'Admin',
+}
+
+export const redirect = (history: History, path: string) => {
   const externalUrl = path.indexOf('://') >= 0;
   if (!externalUrl) {
-      history.push(path);
+    history.push(path);
   } else {
-      location.href = path;
+    location.href = path;
   }
 }
-
 
 // Shared state between all Components
 interface State {
-  isAuthenticated: boolean;
-  userSession: { displayName:string } | null;
+  nav: GetNavItemsResponse;
+  userSession: IAuthSession | null;
+  userAttributes?: string[];
+  roles?: string[];
+  permissions?: string[];
 }
 interface Action {
-    type: 'signout' | 'signin'
-    data?: any
+  type: 'signout' | 'signin'
+  data?: AuthenticateResponse | any
 }
+
 const initialState: State = {
-  isAuthenticated: false,
-  userSession: null
+  nav: global.NAV_ITEMS as GetNavItemsResponse,
+  userSession: global.AUTH as AuthenticateResponse,
+  userAttributes: UserAttributes.fromSession(global.AUTH),
 };
 
-const reducer = (state:State, action:Action) => {
-    switch (action.type) {
-        case 'signin':
-            return { ...state, isAuthenticated:true, userSession:action.data };
-        case 'signout':
-            return { ...state, isAuthenticated:false, userSession:null };
-        default:
-            throw new Error();
-    }
+const reducer = (state: State, action: Action) => {
+  switch (action.type) {
+    case 'signin':
+    const userSession = action.data as IAuthSession;
+    return { ...state, userSession, roles: userSession.roles || [], permissions: userSession.permissions || [],
+                userAttributes: UserAttributes.fromSession(userSession) } as State;
+    case 'signout':
+      return { nav:state.nav, userSession:null } as State;
+    default:
+      throw new Error();
+  }
 }
 
 interface Context {
-    state:State,
-    dispatch:React.Dispatch<Action>
+  state: State,
+  dispatch: React.Dispatch<Action>
 }
 
 export const StateContext = createContext({} as Context);
 
-export const StateProvider = (props:any) => {
-    const [state, dispatch] = useReducer(reducer, initialState);
-    return (<StateContext.Provider value={{ state, dispatch }}>{props.children}</StateContext.Provider>);
+export const StateProvider = (props: any) => {
+  const [state, dispatch] = useReducer(reducer, initialState);
+  return (<StateContext.Provider value={{ state, dispatch }}>{props.children}</StateContext.Provider>);
 }
 
 type Dispatch = React.Dispatch<Action>;
 
-export const checkAuth = async (dispatch:Dispatch) => {
-    try {
-        dispatch({ type: 'signin', data: await client.post(new Authenticate()) });
-    } catch (e) {
-        dispatch({ type: 'signout' });
-    }
+export const checkAuth = async (dispatch: Dispatch) => {
+  try {
+    dispatch({ type: 'signin', data: await client.post(new Authenticate()) });
+  } catch (e) {
+    dispatch({ type: 'signout' });
+  }
 };
 
-export const signout = async (dispatch:Dispatch) => {
-    dispatch({ type: 'signout'});
-    await client.post(new Authenticate({ provider: "logout" }));
+export const signout = async (dispatch: Dispatch) => {
+  dispatch({ type: 'signout' });
+  await client.post(new Authenticate({ provider: 'logout' }));
 };

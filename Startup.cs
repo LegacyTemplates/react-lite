@@ -6,10 +6,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Funq;
 using ServiceStack;
-using ServiceStack.Text;
 using ServiceStack.Configuration;
-using ServiceStack.Validation;
 using MyApp.ServiceInterface;
+using ServiceStack.Script;
+using ServiceStack.Web;
+using System;
+using ServiceStack.Text;
+using ServiceStack.Logging;
 
 namespace MyApp
 {
@@ -46,25 +49,13 @@ namespace MyApp
         // Configure your AppHost with the necessary configuration and dependencies your App needs
         public override void Configure(Container container)
         {
+            Plugins.Add(new SharpPagesFeature()); // enable server-side rendering, see: https://sharpscript.net/docs/sharp-pages
+
             SetConfig(new HostConfig
             {
-                DebugMode = AppSettings.Get(nameof(HostConfig.DebugMode), false),
                 AddRedirectParamsToQueryString = true,
-                UseSameSiteCookies = true,
+                DebugMode = AppSettings.Get(nameof(HostConfig.DebugMode), false)
             });
-            
-            // enable server-side rendering, see: https://sharpscript.net/docs/sharp-pages
-            Plugins.Add(new SharpPagesFeature()); 
-
-            Plugins.Add(new ValidationFeature());
-
-            if (Config.DebugMode)
-            {
-                Plugins.Add(new HotReloadFeature {
-                    DefaultPattern = "*.html;*.js;*.css",
-                    VirtualFiles = VirtualFiles // Monitor ContentRoot to detect changes in /src
-                });
-            }
         }
     }
 }
