@@ -4,8 +4,12 @@ import * as React from 'react';
 import { Input } from '@servicestack/react';
 import { client, Hello } from '../../shared';
 
-export const HelloApi: React.FC<any> = (props:any) => {
-    const [name, setName] = React.useState('React');
+export interface HelloApiProps {
+    name: string;
+}
+
+export const HelloApi: React.FC<any> = (props:HelloApiProps) => {
+    const [name, setName] = React.useState(props.name);
     const [result, setResult] = React.useState('');
 
     React.useEffect(() => {
@@ -16,7 +20,6 @@ export const HelloApi: React.FC<any> = (props:any) => {
 
     return (<div>
         <div className="form-group">
-            <p>/hello API</p>
             <Input value={name} onChange={setName} placeholder="Your name" />
             <h3 className="result pt-2">{ result }</h3>
         </div>
