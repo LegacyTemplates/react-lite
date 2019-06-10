@@ -174,7 +174,7 @@ var __rest = (this && this.__rest) || function (s, e) {
         options = Object.assign(client_1.NavbarDefaults.forNavbar(options), remaining);
         return (React.createElement(exports.Nav, { items: items, options: options }));
     });
-    exports.A = function (_a) {
+    exports.ALink = function (_a) {
         var to = _a.to, onClick = _a.onClick, children = _a.children, attrs = __rest(_a, ["to", "onClick", "children"]);
         if (onClick != null) {
             return (React.createElement("a", __assign({ href: "javascript:void(0)", onClick: onClick }, attrs), children));
@@ -218,11 +218,11 @@ var __rest = (this && this.__rest) || function (s, e) {
         }
         var baseHref = client_1.trimEnd(options.baseHref || '', '/');
         return (React.createElement("li", { className: classNames(item.className, navItemCls) },
-            React.createElement(exports.A, __assign({ to: baseHref + item.href, className: classNames(navLinkCls, client_1.activeClassNav(item, options.activePath)), id: id }, childProps), item.label),
+            React.createElement(exports.ALink, __assign({ to: baseHref + item.href, className: classNames(navLinkCls, client_1.activeClassNav(item, options.activePath)), id: id }, childProps), item.label),
             children.map(function (x) {
                 return (React.createElement("div", { className: options.childNavMenuClass, "aria-labelledby": id }, x.label === '-'
                     ? React.createElement("div", { className: "dropdown-divider" })
-                    : (React.createElement(exports.A, { to: baseHref + x.href, className: classNames(options.childNavMenuItemClass, client_1.activeClassNav(x, options.activePath)) }, x.label))));
+                    : (React.createElement(exports.ALink, { to: baseHref + x.href, className: classNames(options.childNavMenuItemClass, client_1.activeClassNav(x, options.activePath)) }, x.label))));
             })));
     });
     exports.NavButtonGroup = react_router_dom_1.withRouter(function (_a) {
@@ -243,7 +243,7 @@ var __rest = (this && this.__rest) || function (s, e) {
         options.navItemClass = navItemClass || options.navItemClass;
         var baseHref = client_1.trimEnd(options.baseHref || '', '/');
         var parseHtml = client_1.NavDefaults.parseIconHtml || parseIconHtml;
-        return (React.createElement(exports.A, { to: baseHref + item.href, id: item.id, className: classNames(item.className, options.navItemClass, client_1.activeClassNav(item, options.activePath), client_1.btnClasses(remaining)) },
+        return (React.createElement(exports.ALink, { to: baseHref + item.href, id: item.id, className: classNames(item.className, options.navItemClass, client_1.activeClassNav(item, options.activePath), client_1.btnClasses(remaining)) },
             parseHtml(item.iconHtml),
             item.label));
     });
@@ -256,7 +256,7 @@ var __rest = (this && this.__rest) || function (s, e) {
         options = Object.assign(client_1.LinkButtonDefaults.forLinkButton(options), remaining);
         var hashPrefix = client_1.trimEnd(options.baseHref || '', '/');
         var attrs = client_1.pick(remaining, ['id', 'type', 'name', 'autofocus', 'disabled', 'value', 'onClick']);
-        return (React.createElement(exports.A, __assign({ to: hashPrefix + href }, attrs, { className: classNames(className, options.navItemClass, client_1.activeClass(href || null, activePath, exact), client_1.btnClasses(remaining)) }), children));
+        return (React.createElement(exports.ALink, __assign({ to: hashPrefix + href }, attrs, { className: classNames(className, options.navItemClass, client_1.activeClass(href || null, activePath, exact), client_1.btnClasses(remaining)) }), children));
     });
     exports.Button = function (_a) {
         var type = _a.type, id = _a.id, className = _a.className, children = _a.children, remaining = __rest(_a, ["type", "id", "className", "children"]);
@@ -295,13 +295,19 @@ var __rest = (this && this.__rest) || function (s, e) {
                             React.createElement("code", null, permission))
                         : null));
     };
-    exports.Svg = function (_a) {
-        var id = _a.id, fill = _a.fill, className = _a.className, style = _a.style, baseUrl = _a.baseUrl;
+    exports.SvgImage = function (_a) {
+        var id = _a.id, fill = _a.fill, className = _a.className, style = _a.style, width = _a.width, height = _a.height, baseUrl = _a.baseUrl;
         var svgSrc = "/metadata/svg/" + id + ".svg";
         if (fill) {
             svgSrc += "?fill=" + encodeURIComponent(fill);
         }
         style = style || {};
+        if (width) {
+            style.width = width;
+        }
+        if (height) {
+            style.height = height;
+        }
         var src = baseUrl ? client_1.combinePaths(baseUrl, svgSrc) : svgSrc;
         return (React.createElement("img", { src: src, className: className, style: style }));
     };

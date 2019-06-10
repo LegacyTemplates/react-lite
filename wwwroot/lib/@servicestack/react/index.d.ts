@@ -79,7 +79,7 @@ declare type NavItemsProps = RouteComponentProps<any> & {
 };
 export declare const Nav: any;
 export declare const Navbar: any;
-export declare const A: React.FC<any>;
+export declare const ALink: React.FC<any>;
 export declare const NavLink: any;
 export declare type NavButtonGroupProps = NavItemsProps & BootstrapSizeProps & BootstrapColorProps & BootstrapModifierProps;
 export declare const NavButtonGroup: any;
@@ -100,7 +100,7 @@ interface ForbiddenProps {
     permission?: string;
 }
 export declare const Forbidden: React.FC<ForbiddenProps>;
-interface SvgProps {
+interface SvgImageProps {
     id: string;
     fill?: string;
     className?: string;
@@ -109,5 +109,5 @@ interface SvgProps {
     style?: any;
     baseUrl?: string;
 }
-export declare const Svg: React.FC<SvgProps>;
+export declare const SvgImage: React.FC<SvgImageProps>;
 export {};
