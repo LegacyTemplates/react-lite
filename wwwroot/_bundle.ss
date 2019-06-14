@@ -19,7 +19,6 @@
     `/lib/react/react${env}.js`,
     `/lib/react-dom/react-dom${env}.js`,
     `/lib/react-router-dom/react-router-dom${min}.js`,
-    '/lib/classnames/index.js',
     '/lib/@servicestack/client/servicestack-client.umd.js',
     '/lib/@servicestack/react/servicestack-react.umd.js',
 ] | bundleJs({ disk:!debug, out:`/js/lib.bundle${dist}.js` }) }}

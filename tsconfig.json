@@ -15,7 +15,6 @@
       "react-dom": ["typings/react-dom"],
       "react-router": ["typings/react-router"],
       "react-router-dom": ["typings/react-router-dom"],
-      "classnames": ["typings/classnames"],
       "history": ["typings/history"],
       "csstype": ["typings/csstypes"],
       "prop-types": ["typings/prop-types"]

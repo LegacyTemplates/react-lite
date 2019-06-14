@@ -1976,4 +1976,36 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
         return NavOptions;
     }());
     exports.NavOptions = NavOptions;
+    function classNames() {
+        var args = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            args[_i] = arguments[_i];
+        }
+        var classes = [];
+        for (var i = 0; i < args.length; i++) {
+            var arg = args[i];
+            if (!arg)
+                continue;
+            var argType = typeof arg;
+            if (argType === 'string' || argType === 'number') {
+                classes.push(arg);
+            }
+            else if (Array.isArray(arg) && arg.length) {
+                var inner = classNames.apply(null, arg);
+                if (inner) {
+                    classes.push(inner);
+                }
+            }
+            else if (argType === 'object') {
+                for (var _a = 0, _b = Object.keys(arg); _a < _b.length; _a++) {
+                    var key = _b[_a];
+                    if (arg[key]) {
+                        classes.push(key);
+                    }
+                }
+            }
+        }
+        return classes.join(' ');
+    }
+    exports.classNames = classNames;
 });
