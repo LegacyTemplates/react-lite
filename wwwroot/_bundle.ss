@@ -15,7 +15,6 @@ false | to => debug
 ['!/assets/css/default.css','/assets/css/'] | bundleCss({ disk:!debug, out:`/css/lib.bundle${dist}.css` })
 
 (debug ? '.development' : '.production.min') | to => env
-```
 
 {{ [
     `/lib/react/react${env}.js`,
@@ -30,3 +29,5 @@ false | to => debug
     'content:/src/shared/',
     'content:/src/',
 ] | bundleJs({ minify:!debug, cache:!debug, disk:!debug, out:`/js/bundle${dist}.js`, iife:true }) }}
+
+```
