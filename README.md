@@ -1,6 +1,6 @@
 # react-lite
 
-.NET Core 2.1 simple + lite (npm-free) React SPA using TypeScript with integrated bundling + hot reloading
+.NET Core 3.1 simple + lite (npm-free) React SPA using TypeScript with integrated bundling + hot reloading
 
 [![](https://raw.githubusercontent.com/ServiceStack/Assets/master/csharp-templates/react-lite.png)](http://react-lite.web-templates.io/)
 
