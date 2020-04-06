@@ -5,20 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{{ title ?? 'MyApp' }}</title>
-    {{ (debug ? '' : '.min') | to => min }}
-    {{ (debug ? '' : '[hash].min') | to => dist }}
+    {{ var min = (debug ? '' : '.min') }}
+    {{ var dist = (debug ? '' : '[hash].min') }}
     {{ ['!/assets/css/default.css','/assets/css/'] 
-       | bundleCss({ disk:!debug, out:`/css/lib.bundle${dist}.css` }) }}
+       |> bundleCss({ disk:!debug, out:`/css/lib.bundle${dist}.css` }) }}
 </head>
 <body>
 
     <i hidden>
-    {{ 'buttons,svg-auth,app,/assets/css/default.css' | cssIncludes }}
-    {{ 'svg-icons'      | cssIncludes | svgFill('#008299') }}
+    {{ 'buttons,svg-auth,app,/assets/css/default.css' |> cssIncludes }}
+    {{ 'svg-icons'      |> cssIncludes |> svgFill('#008299') }}
     {{#script}}
-        {{ '/js/hot-fileloader.js'    | onlyIfDebug | includeFile }}
-        NAV_ITEMS = {{ 'GetNavItems'  | execService | json }};
-        AUTH      = {{ 'Authenticate' | execService({ ifErrorReturn: "null" }) | json }};
+        {{ '/js/hot-fileloader.js'    |> onlyIfDebug |> includeFile }}
+        NAV_ITEMS = {{ 'GetNavItems'  |> execService |> json }};
+        AUTH      = {{ 'Authenticate' |> execService({ ifErrorReturn: "null" }) |> json }};
     {{/script}}
     </i>
 
@@ -36,14 +36,14 @@
         <div>Copyright &copy; {{ now | dateFormat('yyyy') }}</div>
     </div>
 
-    {{ (debug ? '.development' : '.production.min') | to => env }}
+    {{ var env = (debug ? '.development' : '.production.min') }}
     {{ [
         `/lib/react/react${env}.js`,
         `/lib/react-dom/react-dom${env}.js`,
         `/lib/react-router-dom/react-router-dom${min}.js`,
         '/lib/@servicestack/client/servicestack-client.umd.js',
         '/lib/@servicestack/react/servicestack-react.umd.js',
-    ] | bundleJs({ disk:!debug, out:`/js/lib.bundle${dist}.js` }) }}
+    ] |> bundleJs({ disk:!debug, out:`/js/lib.bundle${dist}.js` }) }}
     
     <script>
         var ALIASES = {
@@ -61,9 +61,9 @@
         'content:/src/components/',
         'content:/src/shared/',
         'content:/src/',
-    ] | bundleJs({ minify:!debug, cache:!debug, disk:!debug, out:`/js/bundle${dist}.js`, iife:true }) }}
+    ] |> bundleJs({ minify:!debug, cache:!debug, disk:!debug, out:`/js/bundle${dist}.js`, iife:true }) }}
 
-    {{ scripts | raw }} 
+    {{ scripts |> raw }} 
 
 </body>
 </html>
