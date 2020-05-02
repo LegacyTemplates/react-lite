@@ -6,7 +6,7 @@
 
 > Browse [source code](https://github.com/NetCoreTemplates/react-lite) and view live demo [react-lite.web-templates.io](http://react-lite.web-templates.io)
 
-Install with `x` .NET Core tool:
+Install with [x dotnet tool](https://docs.servicestack.net/dotnet-tool):
 
     $ dotnet tool install -g x
 
