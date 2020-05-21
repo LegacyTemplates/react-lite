@@ -2,20 +2,17 @@
   
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <TypeScriptToolsVersion>2.8</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>latest</TypeScriptToolsVersion>
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
   </PropertyGroup>
-  
-  <ItemGroup>
-    <Folder Include="wwwroot\" />
-  </ItemGroup>
 
-  <ItemGroup>
-    <Content Remove="appsettings.Development.json" />
-  </ItemGroup>
+  <Target Name="Bundle" BeforeTargets="AfterPublish">
+    <Exec Command="x run _bundle.ss -to /bin/Release/netcoreapp3.1/publish/wwwroot" />
+  </Target>    
 
   <ItemGroup>
     <PackageReference Include="ServiceStack" Version="5.*" />
+    <PackageReference Include="ServiceStack.Desktop" Version="5.*" />
   </ItemGroup>
 
 </Project>
