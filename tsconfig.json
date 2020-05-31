@@ -10,14 +10,9 @@
     "paths": {
       "*": [
         "wwwroot/lib/*",
+        "typings/*"
       ],
-      "react": ["typings/react"],
-      "react-dom": ["typings/react-dom"],
-      "react-router": ["typings/react-router"],
-      "react-router-dom": ["typings/react-router-dom"],
-      "history": ["typings/history"],
-      "csstype": ["typings/csstypes"],
-      "prop-types": ["typings/prop-types"]
+      "csstype": ["typings/csstypes"]
     }
   }
 }
