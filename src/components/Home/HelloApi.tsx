@@ -20,7 +20,7 @@ export const HelloApi: React.FC<any> = (props:HelloApiProps) => {
     }, [name]); // fires when name changes
 
     return (<div>
-        <div className="form-group">
+        <div className="form-group" role="form">
             <Input value={name} onChange={setName} placeholder="Your name" />
             <h3 className="result pt-2">{ result }</h3>
         </div>

@@ -56,35 +56,34 @@ export const SignUp = withRouter<any>(({ history }) => {
             <h3>Register New User</h3>
 
             <form className={classNames({error:responseStatus, loading})} onSubmit={handleSubmit}>
-                <div className="form-group">
+                <div className="mb-3">
                     <ErrorSummary except={'displayName,email,password,confirmPassword'} responseStatus={responseStatus} />
                 </div>
-                <div className="form-group">
+                <div className="mb-3">
                     <Input type="text" id="displayName" value={displayName} onChange={setDisplayName} responseStatus={responseStatus}
                         placeholder="Display Name" label="Name" help="Your first and last name" />
                 </div>
-                <div className="form-group">
+                <div className="mb-3">
                     <Input type="text" id="email" value={email} onChange={setEmail} responseStatus={responseStatus}
                         placeholder="Email" label="Email" />
                 </div>
-                <div className="form-group">
+                <div className="mb-3">
                     <Input type="password" id="password" value={password} onChange={setPassword} responseStatus={responseStatus}
                         placeholder="Password" label="Password" />
                 </div>
-                <div className="form-group">
+                <div className="mb-3">
                     <Input type="password" id="confirmPassword" value={confirmPassword} onChange={setConfirmPassword} responseStatus={responseStatus}
                         placeholder="Confirm" label="Confirm Password" />
                 </div>
-                <div className="form-group">
+                <div className="mb-3">
                     <CheckBox id="autoLogin" value={autoLogin} onChange={setAutoLogin} responseStatus={responseStatus}>
                         Auto Login
                     </CheckBox>
                 </div>
-                <div className="form-group">
+                <div className="mb-3">
                     <Button type="submit" lg primary>Register</Button>
-                    <LinkButton href="/signin" navItemClass="btn">Sign In</LinkButton>
+                    <LinkButton href="/signin" navItemClass="btn btn-lg ms-2">Sign In</LinkButton>
                 </div>
-
                 <div className="pt-3">
                     <h5>Quick Populate:</h5>
                     <p className="pt-1">
