@@ -1,6 +1,6 @@
 # react-lite
 
-.NET 5.0 simple + lite (npm-free) React SPA using TypeScript with integrated bundling + hot reloading
+.NET 6.0 simple + lite (npm-free) React SPA using TypeScript with integrated bundling + hot reloading
 
 [![](https://raw.githubusercontent.com/ServiceStack/Assets/master/csharp-templates/react-lite.png)](http://react-lite.web-templates.io/)
 
