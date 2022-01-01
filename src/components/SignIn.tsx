@@ -42,7 +42,7 @@ export const SignIn = withRouter<any>(({ history }) => {
             setLoading(false);
             redirect(history, redirectTo);
 
-        } catch (e) {
+        } catch (e: any) {
             setResponseStatus(e.responseStatus || e);
             setLoading(false);
         }

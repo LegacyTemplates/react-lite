@@ -42,7 +42,7 @@ export const SignUp = withRouter<any>(({ history }) => {
             setLoading(false);
 
             history.push(Routes.Home);
-        } catch (e) {
+        } catch (e: any) {
             setResponseStatus(e.responseStatus || e);
             setLoading(false);
         }
