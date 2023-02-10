@@ -38,7 +38,7 @@ monitors for changes to any of its dependent resources.
 
 In a new Terminal window start your .NET Web App HTTP Server with:
 
-    $ dotnet watch run
+    $ dotnet watch
 
 Using `watch run` will monitor changes to `C#` source files where it will automatically re-build and restart the Server.
 
