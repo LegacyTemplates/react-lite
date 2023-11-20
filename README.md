@@ -4,13 +4,13 @@
 
 [![](https://raw.githubusercontent.com/ServiceStack/Assets/master/csharp-templates/react-lite.png)](http://react-lite.web-templates.io/)
 
-> Browse [source code](https://github.com/NetCoreTemplates/react-lite) and view live demo [react-lite.web-templates.io](http://react-lite.web-templates.io)
+> Browse [source code](https://github.com/LegacyTemplates/react-lite) and view live demo [react-lite.web-templates.io](http://react-lite.web-templates.io)
 
 Install with [x dotnet tool](https://docs.servicestack.net/dotnet-tool):
 
     $ dotnet tool install -g x
 
-    $ x new react-lite ProjectName
+    $ x new LegacyTemplates/react-lite ProjectName
 
 Alternatively write new project files directly into an empty repository, using the Directory Name as the ProjectName:
 
@@ -59,7 +59,7 @@ When publishing, the project's **Bundle** task:
 </Target>    
 ```
 
-Runs [_bundle.ss](https://github.com/NetCoreTemplates/react-lite/blob/master/_bundle.ss) to produce an optimized, minified & hashed bundle using 
+Runs [_bundle.ss](https://github.com/LegacyTemplates/react-lite/blob/master/_bundle.ss) to produce an optimized, minified & hashed bundle using 
 ServiceStack's [built-in bundling](https://docs.servicestack.net/html-css-and-javascript-minification#optimal-library-bundles) 
 embedded in the [dotnet tools](https://docs.servicestack.net/dotnet-tool) which is pre-configured to use [NUglify's](https://github.com/xoofx/NUglify) 
 advanced compression.
